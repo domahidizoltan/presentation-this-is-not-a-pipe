@@ -1,0 +1,19 @@
+{
+    "request": {
+        "method": "GET",
+        "urlPathPattern": "/charging-stations",
+        "queryParameters": {
+            "evseId": {
+                "contains": "HU*NKM*"
+            }
+        }
+    },
+    "response": {
+        "status": 200,
+        "headers": {
+            "Content-Type": "application/json"
+        },
+        "bodyFileName": "single_station.json",
+        "transformers": ["response-template"]
+    }
+}

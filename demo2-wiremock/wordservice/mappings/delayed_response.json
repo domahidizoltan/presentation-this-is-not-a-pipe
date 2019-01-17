@@ -1,0 +1,14 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "/words/delay"
+  },
+  "response": {
+    "status": 200,
+    "delayDistribution": {
+      "type": "uniform",
+      "lower": 1000,
+      "upper": 5000
+    }
+  }
+}

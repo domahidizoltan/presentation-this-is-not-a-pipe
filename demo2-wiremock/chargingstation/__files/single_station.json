@@ -1,0 +1,54 @@
+{
+  "_": [
+    "{{#assign 'stationId'}}{{randomValue length=10 type='ALPHANUMERIC'}}{{/assign}}",
+
+    "{{#assign 'evseId'}}{{request.query.evseId}}{{/assign}}",
+    "{{#assign 'evseIdA'}}{{replace evseId '*B' '*A'}}{{/assign}}",
+    "{{#assign 'evseIdB'}}{{replace evseId '*A' '*B'}}{{/assign}}"
+  ],
+  "content": [
+    {
+      "static": {
+        "connectors": [
+          {
+            "evseId": "{{evseIdA}}",
+            "power": 22000,
+            "voltage": 400
+          },
+          {
+            "evseId": "{{evseIdB}}",
+            "power": 22000,
+            "voltage": 400
+          }
+        ],
+        "geoLocation": {
+          "coordinate": {
+            "lng": 19.128452257050412,
+            "lat": 47.77646138461881
+          }
+        },
+        "locationId": "{{randomValue type='UUID'}}",
+        "stationId": "{{stationId}}"
+      },
+      "dynamic": {
+        "stationId": "{{stationId}}",
+        "lastUpdated": "{{now format='yyyy-MM-dd HH:mm:ssZ'}}",
+        "connectorStatuses": [
+          {
+            "evseId": "{{evseIdA}}",
+            "connectorStatus": {
+              "status": "AVAILABLE"
+            }
+          },
+          {
+            "evseId": "{{evseIdB}}",
+            "connectorStatus": {
+              "status": "OCCUPIED"
+            }
+          }
+        ],
+        "status": "ONLINE"
+      }
+    }
+  ]
+}

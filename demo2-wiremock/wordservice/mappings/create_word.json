@@ -1,0 +1,25 @@
+{
+    "request": {
+        "method": "POST",
+        "url": "/words",
+        "headers": {
+            "Content-Type": {
+                "contains": "application/json"
+            }
+        },
+        "bodyPatterns": [
+            {
+                "matchesJsonPath": "$.word"
+            },
+            {
+                "matchesJsonPath": "$.createdBy"
+            }
+        ]
+    },
+    "response": {
+        "status": 201,
+        "headers": {
+            "Content-Type": "application/json"
+        }
+    }
+}

@@ -1,0 +1,43 @@
+version: '3.6'
+
+services:
+
+  db:
+    image: mysql:${MYSQL_VERSION}
+    restart: on-failure
+    container_name: ${SERVICE_NAME}-db
+    environment:
+      MYSQL_ROOT_PASSWORD: pass
+      MYSQL_DATABASE: test-database
+    ports:
+      - 3306:3306
+    volumes:
+      - ./db/schema.sql:/docker-entrypoint-initdb.d/00_schema.sql
+      - ./db/data.sql:/docker-entrypoint-initdb.d/01_data.sql
+      - ./localdata/mysql:/var/lib/mysql
+    env_file:
+      - ./.env
+
+  adminer:
+    image: adminer
+    restart: on-failure
+    container_name: ${SERVICE_NAME}-adminer
+    ports:
+      - 8080:8080
+
+  wordservice-mock:
+    image: rodolpheche/wiremock:${WIREMOCK_VERSION}
+    container_name: ${SERVICE_NAME}-wordservice-mock
+    volumes:
+      - ./wordservice:/home/wiremock
+    ports:
+      - 9000:8080
+
+  chargingstation-mock:
+    image: rodolpheche/wiremock:${WIREMOCK_VERSION}
+    container_name: ${SERVICE_NAME}-chargingstation-mock
+    volumes:
+      - ./chargingstation:/home/wiremock
+    ports:
+      - 9001:8080
+    command: ["--global-response-templating"]
