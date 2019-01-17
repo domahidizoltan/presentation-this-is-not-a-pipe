@@ -1,0 +1,26 @@
+version: '3.6'
+
+services:
+
+    swaggerbank-demo:
+      image: swaggerbank-demo
+      container_name: swaggerbank-demo
+      restart: on-failure
+      ports:
+        - 2525:2525
+        - 3000:3000
+        - 8080:8080
+      volumes:
+        - ./demo:/demo
+      environment: 
+        - PROP_GEN=random
+      entrypoint: ["node", "/demo/full.demo.js"]
+
+#    swagger-server:
+#      image: swaggerbank-demo
+#      container_name: swagger-server
+#      restart: on-failure
+#      ports:
+#        - 9525:2525
+#        - 9080:8080
+#      entrypoint: ["node", "/swagger-nodejs-server/index.js"]
