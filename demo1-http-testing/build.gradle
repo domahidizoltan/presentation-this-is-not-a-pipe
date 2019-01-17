@@ -1,0 +1,34 @@
+apply plugin: 'java'
+apply plugin: 'application'
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = 1.8
+
+application {
+    mainClassName = 'com.example.httptesting.Application'
+}
+
+repositories {
+	mavenCentral()
+}
+
+
+dependencies {
+    implementation 'com.squareup.okhttp3:okhttp:3.12.0'
+
+    testImplementation 'com.github.tomakehurst:wiremock:2.19.0'
+    testImplementation 'junit:junit:4.12'
+
+}
+
+task runTestApp(type:JavaExec) {
+    main = 'com.example.httptesting.ApplicationTest'
+    classpath = sourceSets.test.runtimeClasspath
+}
+
+test {
+    afterTest { desc, result ->
+        logger.quiet "Executing test ${desc.name} [${desc.className}] with result: ${result.resultType}"
+    }
+}
