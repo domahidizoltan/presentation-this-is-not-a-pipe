@@ -1,0 +1,25 @@
+version: '3.6'
+
+services:
+
+    server:
+      image: andyrbell/mountebank:1.15.0
+      container_name: server
+      restart: on-failure
+      ports:
+        - 9525:2525
+        - 9000:9000
+      volumes:
+        - ./server:/mountebank
+      entrypoint: ["mb", "--configfile", "/mountebank/config.ejs"]
+
+    client:
+      image: andyrbell/mountebank:1.15.0
+      container_name: client
+      restart: on-failure
+      ports:
+        - 8525:2525
+        - 8000:8000
+      volumes:
+        - ./client:/mountebank
+      entrypoint: ["mb", "--configfile", "/mountebank/config.ejs", "--allowInjection"]

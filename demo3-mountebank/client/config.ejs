@@ -1,0 +1,31 @@
+{
+  "imposters": [
+    {
+      "port": 8000,
+      "protocol": "http",
+      "stubs": [
+        {
+          "predicates": [
+            {
+              "equals": {
+                "method": "GET",
+                "path": "/random-book"
+              }
+            }
+          ],
+          "responses": [
+            {
+              "proxy": {
+                "to": "http://server:9000",
+                "mode": "proxyAlways"
+              },
+              "_behaviors": {
+                "decorate": "<%- stringify(filename, 'decorator.js') %>"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

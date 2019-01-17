@@ -1,0 +1,121 @@
+{
+  "imposters": [
+    {
+      "port": 9000,
+      "protocol": "http",
+      "stubs": [
+        {
+          "predicates": [
+            {
+              "equals": {
+                "method": "GET",
+                "path": "/random-book"
+              }
+            }
+          ],
+          "responses": [
+            {
+              "is": {
+                "body": {
+                  "author": "Christopher Hitchens",
+                  "book": "The missionary position, mother Teresa in theory and practice",
+                  "link": "https://www.amazon.com/missionary-position-mother-Teresa-practice/dp/B002O5IN4O"
+                }
+              }
+            },
+            {
+              "is": {
+                "headers": {
+                  "Content-Type": "application/json"
+                },
+                "body": {
+                  "author": "Dale L Power",
+                  "book": "Fancy Coffins to Make Yourself (Schiffer Book for Woodworkers)",
+                  "link": "https://www.amazon.com/Fancy-Coffins-Yourself-Schiffer-Woodworkers/dp/0764312499"
+                }
+              }
+            },
+            {
+              "is": {
+                "headers": {
+                  "Content-Type": "application/json"
+                },
+                "body": {
+                  "author": "Ira Alterman",
+                  "book": "Games You Can Play with Your Pussy: And Lots of Other Stuff Cat Owners Should Know",
+                  "link": "https://www.amazon.com/Games-You-Play-Your-Pussy/dp/0983303770"
+                }
+              }
+            },
+            {
+              "is": {
+                "headers": {
+                  "Content-Type": "application/json"
+                },
+                "body": {
+                  "author": "Isabel Gaines",
+                  "book": "Pooh Gets Stuck (Winnie the Pooh First Reader)",
+                  "link": "https://www.amazon.com/Pooh-Stuck-Winnie-First-Reader/dp/0786841842"
+                }
+              }
+            },
+            {
+              "is": {
+                "headers": {
+                  "Content-Type": "application/json"
+                },
+                "body": {
+                  "author": "Kathleen Meyer",
+                  "book": "How to Shit in the Woods, 3rd Edition: An Environmentally Sound Approach to a Lost Art",
+                  "link": "https://www.amazon.com/How-Shit-Woods-3rd-Environmentally/dp/1580083633"
+                }
+              },
+              "_behaviors": {
+                "wait": 3000
+              }
+            },
+            {
+              "is": {
+                "statusCode": 500,
+                "body": "Internal Server Error"
+              },
+              "_behaviors": {
+                "repeat": 2
+              }
+            }
+          ]
+        },
+        {
+          "predicates": [
+            {
+              "equals": {
+                "method": "POST",
+                "path": "/hidden-book"
+              }
+            },
+            {
+              "exists": {
+                "body": true
+              },
+              "jsonpath": {
+                "selector": "$..token"
+              },
+              "except": "666"
+            }
+          ],
+          "responses": [
+            {
+              "is": {
+                "body": {
+                  "author": "Adrienne N Hew CN",
+                  "book": "50 Ways to Eat Cock: Healthy Chicken Recipes with Balls!",
+                  "link": "https://www.amazon.com/50-Ways-Eat-Cock-AlternaTips/dp/148259143X"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

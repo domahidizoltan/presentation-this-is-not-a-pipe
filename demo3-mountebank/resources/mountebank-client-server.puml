@@ -1,0 +1,13 @@
+@startuml
+actor :User:
+cloud Server #LightBlue
+
+
+frame Client {
+    User -> [client] :"        "
+    note "Mountebank proxy" as proxy
+}
+
+(client) .right.> proxy
+proxy .right.> (Server) :"        "
+@enduml
