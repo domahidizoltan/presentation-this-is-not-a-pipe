@@ -1,0 +1,18 @@
+remote-api-url: http://localhost:9000
+
+smtp:
+  host: localhost
+  port: 587
+
+spring:
+  mail:
+    properties:
+      mail:
+        transport:
+          protocol: smtp
+        smtp:
+          auth: false
+          timeout: 2000
+          starttls:
+            enable: false
+      debug: true

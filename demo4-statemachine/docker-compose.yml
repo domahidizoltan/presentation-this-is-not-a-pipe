@@ -1,0 +1,16 @@
+version: '3.6'
+
+services:
+
+    statemachine:
+      image: andyrbell/mountebank:1.15.0
+      container_name: statemachine
+      restart: on-failure
+      ports:
+        - 2525:2525
+        - 9000:9000
+        - 587:587
+      volumes:
+        - ./mountebank:/mountebank
+      entrypoint: ["mb", "--configfile", "/mountebank/config.ejs", "--allowInjection"]
+      network_mode: "host"

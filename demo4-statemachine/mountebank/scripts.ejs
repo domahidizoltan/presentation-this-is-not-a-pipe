@@ -1,0 +1,95 @@
+<%
+
+start = function(request, state) {
+    let id = getId(request.path, '/start/')
+    let params = JSON.parse(request.body)
+
+    let [code, response] = tryStart(state, id, params)
+    return {
+        statusCode: code,
+        body: response
+    }
+}
+
+stop = function(request, state) {
+    let id = getId(request.path, '/stop/')
+
+    let [code, response] = tryStop(state, id)
+    return {
+        statusCode: code,
+        body: response
+    }
+}
+
+function getId(path, subPath) {
+    return path.substring(subPath.length)
+}
+
+function tryStart(state, id, params) {
+    if (typeof state.machines === 'undefined') {
+        state.machines = {}
+    }
+
+    var response = `Id ${id} is already started`
+    var code = 403
+
+    if (!state.machines[id]) {
+        state.machines[id] = params
+        startCallback(id, params, state)
+        response = `Started ${id}`
+        code = 201
+        console.log(response)
+    }
+
+    return [code, response]
+}
+
+function startCallback(id, params, state) {
+    if (params.lifetime) {
+        setTimeout(() => {
+            tryStop(state, id, true)
+        }, params.lifetime * 1000)
+    }
+}
+
+function tryStop(state, id, timedOut=false) {
+    var response = `Id ${id} not found`
+    var code = 404
+
+    if (state.machines && state.machines[id]) {
+        stopCallback(id, state.machines[id], state.http)
+        delete state.machines[id]
+
+        response = `Stopped ${id}`
+        if (timedOut) {
+            response += ' (end of lifetime)'
+        }
+
+        code = 200
+        console.log(response)
+    }
+
+    return [code, response]
+}
+
+function stopCallback(id, params, http) {
+    if (params.sendMail) {
+        console.log(`Sending mail to ${id} ...`)
+        var post_options = {
+              host: '0.0.0.0',
+              port: 8080,
+              path: '/send-mail/' + id,
+              method: 'POST'
+        }
+
+        http.request(post_options)
+        .on('error', (error) => {
+            console.error(`Mail not sent to ${id}`)
+            console.error(error)
+        }).on('end', () => {
+            console.log(`Mail sent to ${id}`)
+        }).end();
+    }
+}
+
+%>

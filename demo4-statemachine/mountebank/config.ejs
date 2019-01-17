@@ -1,0 +1,45 @@
+{
+  "imposters": [
+    {
+      "port": 9000,
+      "protocol": "http",
+      "stubs": [
+        {
+          "predicates": [
+            {
+              "matches": {
+                "method": "POST",
+                "path": "/start/*"
+              }
+            }
+          ],
+          "responses": [
+            {
+              "inject": "(request, state) => { <% include /mountebank/scripts %> state.http = require('http'); return start(request, state) }"
+            }
+          ]
+        },
+        {
+          "predicates": [
+            {
+              "matches": {
+                "method": "POST",
+                "path": "/stop/*"
+              }
+            }
+          ],
+          "responses": [
+            {
+              "inject": "(request, state) => { <% include /mountebank/scripts %> return stop(request, state) }"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "port": 587,
+      "protocol": "smtp",
+      "recordRequests": true
+    }
+  ]
+}

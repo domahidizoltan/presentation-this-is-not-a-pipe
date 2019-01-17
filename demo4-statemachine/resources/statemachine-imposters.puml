@@ -1,0 +1,32 @@
+@startuml
+actor :User:
+
+frame Application {
+    component endpoints [
+        /start/{id}
+        /stop/{id}
+        /send-mail/{id}
+    ]
+}
+
+frame Mountebank {
+    component mountebank
+
+    component startStopImposter [
+        HTTP:9000
+        /start/{id}
+        /stop/{id}
+    ]
+
+    component mailImposter [
+        SMTP:587
+    ]
+
+    [startStopImposter] <-down- [mountebank]
+    [mailImposter] <-up- [mountebank]
+}
+
+User -> [endpoints] : "    "
+[endpoints] <-> [startStopImposter] : "     Start/Stop machine     "
+[endpoints] -> [mailImposter] : "Send email     "
+@enduml

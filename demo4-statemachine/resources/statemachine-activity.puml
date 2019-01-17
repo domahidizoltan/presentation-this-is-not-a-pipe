@@ -1,0 +1,42 @@
+@startuml
+
+start
+
+:remoteStart;
+note
+    appStart
+end note
+
+if (started) then (yes)
+    :403 Forbidden;
+    end
+else (no)
+    :201 Created;
+endif
+
+if (lifetime) then (yes)
+    :remoteStop;
+    note
+        appStop
+    end note
+else (no)
+endif
+
+if (stopped) then (yes)
+    :404 Not Found;
+    end
+else (no)
+    :200 OK;
+endif
+
+if (sendMail) then (yes)
+    :appSendMail;
+    note right
+        smtpMail
+    end note
+else (no)
+endif
+
+end
+@enduml
+
