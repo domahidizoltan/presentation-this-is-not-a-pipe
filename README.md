@@ -10,6 +10,6 @@ Author: Zoltán Domahidi
 
 ### Talks
 
-| Event                                  | Location                                | Date     |
-|----------------------------------------|-----------------------------------------|----------|
-| "HTTP Mocking Dojo" at Grape Solutions | Grape Solutions Plc., Hungary, Budapest | TBD 2019 |
+| Event                                  | Location                                | Date          |
+|----------------------------------------|-----------------------------------------|---------------|
+| "HTTP Mocking Dojo" at Grape Solutions | Grape Solutions Plc., Hungary, Budapest | 19 March 2019 |
